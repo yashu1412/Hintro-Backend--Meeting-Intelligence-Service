@@ -20,11 +20,18 @@
     "db:reset": "prisma migrate reset --force",
     "postinstall": "prisma generate"
   },
-  "keywords": ["meeting", "ai", "intelligence", "typescript", "express"],
+  "keywords": [
+    "meeting",
+    "ai",
+    "intelligence",
+    "typescript",
+    "express"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "@vercel/node": "^5.8.12",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -47,16 +54,16 @@
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.10.7",
     "@types/node-cron": "^3.0.11",
+    "@types/supertest": "^6.0.2",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.7",
     "@types/uuid": "^10.0.0",
+    "@vitest/coverage-v8": "^2.1.8",
     "nodemon": "^3.1.9",
     "prisma": "^5.22.0",
+    "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
-    "vitest": "^2.1.8",
-    "@vitest/coverage-v8": "^2.1.8",
-    "supertest": "^7.0.0",
-    "@types/supertest": "^6.0.2"
+    "vitest": "^2.1.8"
   }
 }
