@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  meetings    Meeting[]
+  actionItems ActionItem[]
+}
+
+model Meeting {
+  id           String   @id @default(cuid())
+  title        String
+  participants String   // JSON array stored as string
+  meetingDate  DateTime
+  transcript   String   // JSON array of {timestamp, speaker, text}
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyses    Analysis[]
+  actionItems ActionItem[]
+}
+
+model Analysis {
+  id          String   @id @default(cuid())
+  meetingId   String
+  summary     String   // JSON: [{text, citations:[{timestamp}]}]
+  actionItems String   // JSON: [{task, assignee, dueDate, citations}]
+  decisions   String   // JSON: [{text, citations}]
+  followUps   String   // JSON: [{text, citations}]
+  rawPrompt   String?
+  rawResponse String?
+  createdAt   DateTime @default(now())
+
+  meeting Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+}
+
+model ActionItem {
+  id        String           @id @default(cuid())
+  meetingId String?
+  userId    String?
+  task      String
+  assignee  String
+  dueDate   DateTime?
+  status    String           @default("PENDING")
+  citations String           @default("[]") // JSON: [{timestamp}]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  meeting      Meeting?      @relation(fields: [meetingId], references: [id], onDelete: SetNull)
+  user         User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  reminderLogs ReminderLog[]
+}
+
+model ReminderLog {
+  id           String   @id @default(cuid())
+  actionItemId String
+  channel      String   @default("telegram")
+  message      String
+  success      Boolean
+  errorMessage String?
+  sentAt       DateTime @default(now())
+
+  actionItem ActionItem @relation(fields: [actionItemId], references: [id], onDelete: Cascade)
+}
+

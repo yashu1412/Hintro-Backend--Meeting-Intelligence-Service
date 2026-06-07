@@ -12,7 +12,7 @@ A production-ready backend service that stores meeting transcripts, generates AI
 | Framework | Express |
 | ORM | Prisma |
 | Database | SQLite (dev) / PostgreSQL (prod) |
-| LLM | OpenRouter (NVIDIA Nemotron 3 Ultra) / Groq / Gemini |
+| LLM | Groq (Llama 3.3 70B) / Gemini |
 | Auth | JWT (Bearer) |
 | Validation | Zod |
 | Logging | pino |
@@ -31,8 +31,8 @@ A production-ready backend service that stores meeting transcripts, generates AI
 
 ### 2. Clone & Install
 ```bash
-git clone https://github.com/yashu1412/TaltRoom-AI
-cd hintroAI/backend
+git clone https://github.com/your/repo
+cd hintroAI
 npm install
 ```
 
@@ -45,7 +45,7 @@ Edit `.env` and fill in:
 |----------|-------------|
 | `DATABASE_URL` | `file:./dev.db` for SQLite |
 | `JWT_SECRET` | Random string, min 32 chars |
-| `OPENROUTER_API_KEY` | From https://openrouter.ai/keys |
+| `GROQ_API_KEY` | From https://console.groq.com/keys |
 | `TELEGRAM_BOT_TOKEN` | From @BotFather on Telegram |
 | `TELEGRAM_CHAT_ID` | Your Telegram chat ID |
 
@@ -78,9 +78,7 @@ Interactive Swagger UI: http://localhost:3000/api/docs
 | `DATABASE_URL` | **Yes** | — | Prisma DB connection string |
 | `JWT_SECRET` | **Yes** | — | Secret for signing JWTs (min 32 chars) |
 | `JWT_EXPIRES_IN` | No | `7d` | JWT expiry |
-| `LLM_PROVIDER` | No | `openrouter` | `openrouter`, `groq` or `gemini` |
-| `LLM_MODEL` | No | `nvidia/nemotron-3-ultra-550b-a55b:free` | Model ID to use on OpenRouter |
-| `OPENROUTER_API_KEY` | Yes* | — | OpenRouter API key (*if using OpenRouter) |
+| `LLM_PROVIDER` | No | `groq` | `groq` or `gemini` |
 | `GROQ_API_KEY` | Yes* | — | Groq API key (*if using Groq) |
 | `GEMINI_API_KEY` | Yes* | — | Gemini API key (*if using Gemini) |
 | `TELEGRAM_BOT_TOKEN` | No | — | Telegram bot token for reminders |
